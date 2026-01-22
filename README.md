@@ -7,5 +7,6 @@ AI Astrology is a web app that generates AI-powered astrological readings from u
 - Collects: name, birth date, birth time, birth place, zodiac sign, reading type
 - Generates readings using an AI backend (OpenAI or other models)
 - Saves reading history locally or via backend (depending on project setup)
+- Uses the Astrosaga 3.1B model for pretrend data
 
 <img width="1918" height="1079" alt="image" src="https://github.com/user-attachments/assets/d0eb8a82-c0a5-458c-b0b5-b95312f281bc" />
