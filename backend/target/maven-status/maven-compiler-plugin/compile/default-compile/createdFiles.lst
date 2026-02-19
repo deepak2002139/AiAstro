@@ -1,0 +1,9 @@
+com\aiastro\AstroAiApplication$1.class
+com\aiastro\dto\AstrologyReadingResponse.class
+com\aiastro\service\AstrologyService.class
+com\aiastro\dto\AstrologyReadingRequest.class
+com\aiastro\AstroAiApplication.class
+com\aiastro\model\AstrologyReading.class
+com\aiastro\controller\AstrologyController.class
+com\aiastro\repository\AstrologyReadingRepository.class
+com\aiastro\config\RestTemplateConfig.class
