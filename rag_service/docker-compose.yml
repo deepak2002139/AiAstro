@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  # Astrology RAG Service
+  astrology-rag:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: astrology-rag-service
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - LOG_LEVEL=INFO
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+    volumes:
+      - ./rag_service/chroma_db:/app/chroma_db
+      - ./rag_service/logs:/app/logs
+      - ./rag_service/knowledge_base.md:/app/knowledge_base.md:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - astrology-network
+
+  # Optional: Redis for caching (uncomment to enable)
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: astrology-redis
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis-data:/data
+  #   networks:
+  #     - astrology-network
+  #   restart: unless-stopped
+
+networks:
+  astrology-network:
+    driver: bridge
+
+# volumes:
+#   redis-data:
+
