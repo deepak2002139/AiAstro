@@ -3,6 +3,7 @@ Astrological Knowledge Base Setup for RAG
 This module initializes the vector store with astrological knowledge
 """
 
+import os
 from typing import List
 from pathlib import Path
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -58,11 +59,9 @@ def initialize_vectorstore(persist_directory: str = "./chroma_db") -> Chroma:
     """
     Initialize and populate the vector store with astrological knowledge.
 
-    Args:
-        persist_directory: Directory to persist the Chroma database
-
-    Returns:
-        Initialized Chroma vectorstore
+    This function will use local sentence-transformers + chromadb when the
+    environment variable USE_LOCAL_EMBEDDINGS=1 is set. Otherwise it uses
+    OpenAIEmbeddings (cloud) as before.
     """
     # Load knowledge base
     kb_content = load_knowledge_base()
@@ -75,13 +74,28 @@ def initialize_vectorstore(persist_directory: str = "./chroma_db") -> Chroma:
 
     print(f"📚 Loaded {len(documents)} chunks from knowledge base")
 
-    # Initialize embeddings
+    use_local = os.environ.get("USE_LOCAL_EMBEDDINGS", "0") == "1"
+
+    if use_local:
+        # Use local sentence-transformers + chromadb via embeddings_transformer
+        try:
+            from rag_service.embeddings_transformer import setup_vectorstore
+
+            texts = [doc.page_content for doc in documents]
+            collection = setup_vectorstore(texts, collection_name="astrology_kb")
+            print(f"✅ Local vector store initialized with {len(texts)} documents")
+            print(f"📁 Persisted to: {persist_directory} (note: embeddings_transformer defines its own persist dir)")
+            return collection
+        except Exception as e:
+            print("Failed to initialize local embeddings vector store:", e)
+            print("Falling back to OpenAIEmbeddings...")
+
+    # Fallback: use OpenAIEmbeddings + Chroma as before
     embeddings = OpenAIEmbeddings(
         model="text-embedding-3-small",
         show_progress_bar=True
     )
 
-    # Create or load vectorstore
     vectorstore = Chroma.from_documents(
         documents=documents,
         embedding=embeddings,
@@ -100,12 +114,25 @@ def load_vectorstore(persist_directory: str = "./chroma_db") -> Chroma:
     """
     Load an existing vector store.
 
-    Args:
-        persist_directory: Directory where Chroma database is persisted
-
-    Returns:
-        Loaded Chroma vectorstore
+    If USE_LOCAL_EMBEDDINGS=1, this will attempt to load the Chroma collection
+    created by the local embeddings flow. Otherwise it will initialize OpenAIEmbeddings
+    and load the Chroma wrapper.
     """
+    use_local = os.environ.get("USE_LOCAL_EMBEDDINGS", "0") == "1"
+
+    if use_local:
+        try:
+            # The local chroma persistence is handled in embeddings_transformer (rag_service/chroma_db)
+            import chromadb
+            from chromadb.config import Settings
+
+            client = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet", persist_directory=str(Path(__file__).parent / "chroma_db")))
+            collection = client.get_collection(name="astrology_kb")
+            return collection
+        except Exception as e:
+            print("Failed to load local chroma collection:", e)
+            print("Falling back to OpenAIEmbeddings load path")
+
     embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
     vectorstore = Chroma(
@@ -124,10 +151,12 @@ if __name__ == "__main__":
     # Test retrieval
     retriever = vs.as_retriever(search_kwargs={"k": 3})
     test_query = "What are the characteristics of Aries?"
-    results = retriever.invoke(test_query)
+    try:
+        results = retriever.invoke(test_query)
 
-    print(f"\n🔍 Test Query: {test_query}")
-    print(f"📄 Retrieved {len(results)} documents:")
-    for i, doc in enumerate(results, 1):
-        print(f"\n  [{i}] {doc.page_content[:200]}...")
-
+        print(f"\n🔍 Test Query: {test_query}")
+        print(f"📄 Retrieved {len(results)} documents:")
+        for i, doc in enumerate(results, 1):
+            print(f"\n  [{i}] {doc.page_content[:200]}...")
+    except Exception as e:
+        print("Retrieval test failed:", e)
