@@ -16,7 +16,7 @@ python knowledge_setup.py
 uvicorn api_service:app --port 8000
 ```
 
-### Terminal 2: Backend 
+### Terminal 2: Backend
 ```bash
 java -jar backend/target/astrology-backend-1.0.0.jar
 ```
@@ -64,10 +64,11 @@ Then visit:
 
 ## 🎯 What You Get
 
-✅ **Intelligent RAG Service** - Grounds astrological readings in knowledge base  
-✅ **Backend API** -  Spring Boot service  
-✅ **Frontend** - React/Vue web interface  
-✅ **Docker Setup** - Easy deployment  
-✅ **Documentation** - Complete guides included  
+✅ **Intelligent RAG Service** - Grounds astrological readings in knowledge base
+✅ **Backend API** -  Spring Boot service
+✅ **Frontend** - React/Vue web interface
+✅ **Docker Setup** - Easy deployment
+✅ **Documentation** - Complete guides included
 
 ---
+
