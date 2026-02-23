@@ -1,3 +1,4 @@
+# rag_service requirements
 langchain>=0.1.0
 langgraph>=0.1.0
 langchain-openai>=0.1.0
@@ -11,3 +12,7 @@ uvicorn>=0.24.0
 pydantic>=2.0.0
 python-dotenv>=1.0.0
 requests>=2.31.0
+
+# Dev / Test
+pytest>=7.0.0
+pytest-mock>=3.0.0
