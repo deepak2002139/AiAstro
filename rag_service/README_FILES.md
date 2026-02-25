@@ -18,13 +18,6 @@ C:\Users\hp\Videos\SpringBoot\AiAstro\
 │
 └── rag_service/ ⭐ NEW - RAG Service
     │
-    ├── 📋 DOCUMENTATION (Read First!)
-    │   ├── README.md                    # Main documentation
-    │   ├── GETTING_STARTED.md           # 5-minute quick start
-    │   ├── IMPLEMENTATION_GUIDE.md      # Comprehensive 10K+ word guide
-    │   ├── IMPLEMENTATION_SUMMARY.md    # This summary overview
-    │   └── README_FILES.md              # (This file) Structure reference
-    │
     ├── 🔧 CONFIGURATION
     │   ├── .env.example                 # Environment template (copy to .env)
     │   ├── config.py                    # Configuration management

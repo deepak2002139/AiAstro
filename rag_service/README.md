@@ -9,7 +9,6 @@
 ## 📊 Quick Stats
 
 - **Framework:** LangGraph + LangChain
-- **LLM:** OpenAI GPT-4o
 - **Vector DB:** Chroma
 - **API:** FastAPI (REST)
 - **Knowledge Base:** Comprehensive astrology knowledge (40+ concepts)
@@ -205,7 +204,6 @@ rag_service/
 ├── logs/                         # Application logs
 │   └── rag_service.log
 │
-├── IMPLEMENTATION_GUIDE.md       # Detailed documentation
 └── README.md                     # This file
 ```
 
@@ -219,7 +217,6 @@ rag_service/
 ```http
 POST /reading
 Content-Type: application/json
-
 {
   "query": "What is my Aries personality like?",
   "zodiac_sign": "Aries",
