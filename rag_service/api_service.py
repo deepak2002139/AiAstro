@@ -10,8 +10,10 @@ from typing import Optional, List
 import json
 from datetime import datetime
 import logging
+import requests
 
 from langgraph_rag import run_astrology_rag, AstrologyRAGState
+from config import settings
 
 # =============================================
 # Setup Logging
@@ -211,6 +213,23 @@ async def generate_reading(request: AstrologyReadingRequest):
     4. Retry if confidence is low
     """
     logger.info(f"Received reading request: {request.query[:50]}...")
+
+    # Consume 1 credit from backend before proceeding
+    try:
+        backend_url = f"{settings.BACKEND_BASE_URL}/api/credits/consume"
+        headers = {"Content-Type": "application/json", "X-Service-Key": settings.SERVICE_API_KEY}
+        payload = {"userId": 1, "credits": 1, "reason": "prompt"}  # TODO: replace userId with authenticated user
+        resp = requests.post(backend_url, json=payload, headers=headers, timeout=5)
+        if resp.status_code == 402:
+            raise HTTPException(status_code=402, detail="Insufficient credits. Please purchase more to continue.")
+        if not resp.ok:
+            logger.error(f"Failed to consume credit: {resp.status_code} {resp.text}")
+            raise HTTPException(status_code=502, detail="Failed to validate credits")
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error calling backend consume API: {str(e)}")
+        raise HTTPException(status_code=502, detail="Credit check failed")
 
     try:
         # Enhance query with context if available
