@@ -56,6 +56,10 @@ class Settings:
     CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:5173").split(",")
     CORS_CREDENTIALS = os.getenv("CORS_CREDENTIALS", "true").lower() == "true"
 
+    # Service to Backend integration
+    BACKEND_BASE_URL = os.getenv("BACKEND_BASE_URL", "http://localhost:8080")
+    SERVICE_API_KEY = os.getenv("SERVICE_API_KEY", "change-me")
+
     @classmethod
     def validate(cls):
         """Validate that all required settings are configured."""
@@ -85,4 +89,3 @@ class Settings:
 
 
 settings = Settings()
-
