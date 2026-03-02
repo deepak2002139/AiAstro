@@ -4,16 +4,16 @@
   "description": "Frontend for AI-powered astrological readings with payment system",
   "private": true,
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "axios": "^1.6.0",
-    "react-router-dom": "^6.20.0",
-    "stripe": "^13.0.0",
     "@stripe/react-stripe-js": "^2.4.0",
     "@stripe/stripe-js": "^2.1.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4",
-    "date-fns": "^2.30.0"
+    "axios": "^1.6.0",
+    "date-fns": "^2.30.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.0",
+    "react-scripts": "^5.0.1",
+    "stripe": "^13.0.0",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -39,4 +39,3 @@
     ]
   }
 }
-
