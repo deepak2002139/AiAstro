@@ -1,0 +1,128 @@
+.reading-history {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: calc(100vh - 80px);
+  padding: 60px 0;
+}
+
+.history-header {
+  text-align: center;
+  color: white;
+  margin-bottom: 50px;
+}
+
+.history-header h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.history-header p {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 40px;
+  background: white;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.empty-state h3 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.empty-state p {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.readings-list {
+  display: grid;
+  gap: 25px;
+}
+
+.reading-card {
+  background: white;
+  border-left: 4px solid #667eea;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.reading-card:hover {
+  transform: translateX(5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.reading-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.reading-card-header h3 {
+  color: #333;
+  margin: 0;
+}
+
+.reading-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.reading-card-info {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.info-item {
+  color: #666;
+  font-size: 14px;
+}
+
+.reading-card-preview {
+  color: #555;
+  font-size: 14px;
+  margin-bottom: 20px;
+  line-height: 1.6;
+  border-left: 3px solid #f0f0f0;
+  padding-left: 15px;
+}
+
+.reading-card .btn {
+  align-self: flex-start;
+}
+
+@media (max-width: 768px) {
+  .history-header h1 {
+    font-size: 28px;
+  }
+
+  .reading-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .reading-card-info {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+

@@ -1,0 +1,85 @@
+.new-reading {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: calc(100vh - 80px);
+  padding: 60px 0;
+}
+
+.reading-header {
+  text-align: center;
+  color: white;
+  margin-bottom: 50px;
+}
+
+.reading-header h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.reading-header p {
+  font-size: 18px;
+  opacity: 0.9;
+  margin-bottom: 25px;
+}
+
+.token-info {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.token-count {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  border-radius: 20px;
+}
+
+.token-cost {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  border-radius: 20px;
+  color: #ffd700;
+}
+
+.reading-form-card {
+  max-width: 700px;
+  margin: 0 auto;
+  background: white;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-row .form-group {
+  margin-bottom: 20px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.form-actions button {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .reading-header h1 {
+    font-size: 28px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .token-info {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
