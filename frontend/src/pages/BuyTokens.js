@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './BuyTokens.css';
 
 function BuyTokens({ onTokensPurchased }) {
@@ -6,39 +6,112 @@ function BuyTokens({ onTokensPurchased }) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('');
+  const [userLocation, setUserLocation] = useState('US'); // Default to US
+  const [currency, setCurrency] = useState('$');
+  const [tokenPackages, setTokenPackages] = useState([]);
 
-  const tokenPackages = [
-    {
-      id: 1,
-      tokens: 5,
-      price: 4.99,
-      popular: false,
-      description: 'Starter Pack'
-    },
-    {
-      id: 2,
-      tokens: 15,
-      price: 12.99,
-      popular: true,
-      description: 'Best Value',
-      savings: '13%'
-    },
-    {
-      id: 3,
-      tokens: 30,
-      price: 22.99,
-      popular: false,
-      description: 'Power Pack'
-    },
-    {
-      id: 4,
-      tokens: 100,
-      price: 69.99,
-      popular: false,
-      description: 'Ultimate Pack',
-      savings: '30%'
+  // Fetch user location on component mount
+  useEffect(() => {
+    fetchUserLocation();
+  }, []);
+
+  // Update token packages when location changes
+  useEffect(() => {
+    updateTokenPackages(userLocation);
+  }, [userLocation]);
+
+  const fetchUserLocation = async () => {
+    try {
+      // Using IP geolocation API to detect user location
+      const response = await fetch('https://ipapi.co/json/');
+      const data = await response.json();
+      const country = data.country_code || 'US';
+      setUserLocation(country);
+    } catch (error) {
+      console.error('Error fetching location:', error);
+      // Default to US if geolocation fails
+      setUserLocation('US');
     }
-  ];
+  };
+
+  const updateTokenPackages = (location) => {
+    let packages;
+
+    if (location === 'IN') {
+      // India pricing: 10 tokens for 20 rupees
+      setCurrency('₹');
+      packages = [
+        {
+          id: 1,
+          tokens: 10,
+          price: 20,
+          popular: false,
+          description: 'Starter Pack'
+        },
+        {
+          id: 2,
+          tokens: 30,
+          price: 60,
+          popular: true,
+          description: 'Best Value',
+          savings: '10%'
+        },
+        {
+          id: 3,
+          tokens: 60,
+          price: 120,
+          popular: false,
+          description: 'Power Pack',
+          savings: '10%'
+        },
+        {
+          id: 4,
+          tokens: 200,
+          price: 400,
+          popular: false,
+          description: 'Ultimate Pack',
+          savings: '20%'
+        }
+      ];
+    } else {
+      // US and other countries: 1 dollar for 10 tokens
+      setCurrency('$');
+      packages = [
+        {
+          id: 1,
+          tokens: 10,
+          price: 1.00,
+          popular: false,
+          description: 'Starter Pack'
+        },
+        {
+          id: 2,
+          tokens: 30,
+          price: 2.99,
+          popular: true,
+          description: 'Best Value',
+          savings: '1%'
+        },
+        {
+          id: 3,
+          tokens: 60,
+          price: 5.99,
+          popular: false,
+          description: 'Power Pack',
+          savings: '1%'
+        },
+        {
+          id: 4,
+          tokens: 200,
+          price: 19.99,
+          popular: false,
+          description: 'Ultimate Pack',
+          savings: '1%'
+        }
+      ];
+    }
+    setTokenPackages(packages);
+  };
 
   const handlePurchase = async (pkg) => {
     setSelectedPackage(pkg.id);
@@ -91,6 +164,9 @@ function BuyTokens({ onTokensPurchased }) {
         <div className="buy-header">
           <h1>Buy Tokens 💰</h1>
           <p>Purchase tokens to generate astrological readings</p>
+          <p style={{ fontSize: '14px', marginTop: '15px', opacity: 0.8 }}>
+            Pricing based on your location: <strong>{userLocation === 'IN' ? 'India (₹)' : 'International ($)'}</strong>
+          </p>
         </div>
 
         {message && (
@@ -113,12 +189,12 @@ function BuyTokens({ onTokensPurchased }) {
               <p className="token-label">Tokens</p>
 
               <div className="price">
-                <span className="currency">$</span>
+                <span className="currency">{currency}</span>
                 <span className="amount">{pkg.price.toFixed(2)}</span>
               </div>
 
               <p className="price-per-token">
-                ${(pkg.price / pkg.tokens).toFixed(2)} per token
+                {currency}{(pkg.price / pkg.tokens).toFixed(2)} per token
               </p>
 
               <button
