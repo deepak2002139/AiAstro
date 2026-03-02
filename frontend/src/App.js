@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Navigation from './components/Navigation';
+import Footer from './components/Footer';
 import Dashboard from './pages/Dashboard';
 import NewReading from './pages/NewReading';
 import ReadingHistory from './pages/ReadingHistory';
@@ -85,6 +86,7 @@ function App() {
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );
