@@ -21,6 +21,11 @@
   opacity: 0.9;
 }
 
+.buy-header p:last-child {
+  font-size: 14px;
+  margin-top: 15px;
+}
+
 .pricing-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
